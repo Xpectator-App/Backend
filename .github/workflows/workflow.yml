@@ -25,6 +25,11 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
@@ -34,7 +39,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: backend
-          path: .
+          path: |
+            .
+            !venv/
 
   Deploy:
     permissions:
@@ -51,15 +58,6 @@ jobs:
         with:
           name: backend
           path: .
-      
-      - name: Set up Python version
-        uses: actions/setup-python@v3.0.0
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
