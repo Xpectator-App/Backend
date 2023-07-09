@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +43,7 @@ jobs:
             .
             !venv/
 
-  deploy:
+  Deploy:
     permissions:
       contents: none
     runs-on: ubuntu-latest
