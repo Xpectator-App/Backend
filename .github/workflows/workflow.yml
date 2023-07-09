@@ -34,9 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: backend
-          path: |
-            backend
-            !venv/
+          path: .
 
   Deploy:
     permissions:
