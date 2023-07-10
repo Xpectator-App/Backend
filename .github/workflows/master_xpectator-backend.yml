@@ -35,9 +35,8 @@ jobs:
         with:
           name: backend
           path: |
-            backend
-            requirements.txt 
-            !venv/
+            .
+            venv/
 
   Deploy:
     runs-on: ubuntu-latest
