@@ -7,10 +7,10 @@ class Event(models.Model):
         
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     locations_id = models.UUIDField()
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     start_datetime = models.DateField()
     end_datetime = models.DateField(null=True, blank=True)
-    arena = models.CharField(max_length=50)
+    arena = models.CharField(max_length=150)
     max_participants = models.BigIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -34,7 +34,7 @@ class EventsPhoto(models.Model):
         
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     event_id = models.UUIDField()
-    source = models.CharField(max_length=150)
+    source = models.CharField(max_length=250)
     active = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -48,7 +48,7 @@ class EventsReview(models.Model):
     user_id = models.UUIDField()
     event_id = models.UUIDField()
     rating = models.IntegerField()
-    comments = models.CharField(max_length=150, null=True, blank=True)
+    comments = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -58,8 +58,8 @@ class Location(models.Model):
         db_table = 'location'
         
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=50)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=250)
     latitude = models.BigIntegerField(null=True, blank=True)
     longitude = models.BigIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,7 @@ class Sport(models.Model):
         
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=150)
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -84,10 +84,10 @@ class Team(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sport_id = models.UUIDField()
     locations_id = models.UUIDField()
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     country = models.CharField(max_length=150)
-    city = models.CharField(max_length=50, null=True, blank=True)
-    home_arena = models.CharField(max_length=50)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    home_arena = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
