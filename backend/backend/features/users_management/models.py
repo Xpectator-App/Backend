@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 import uuid
 
 class Login(models.Model):
@@ -39,3 +40,7 @@ class User(models.Model):
     password = models.CharField(max_length=150)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)

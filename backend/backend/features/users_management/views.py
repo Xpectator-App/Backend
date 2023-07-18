@@ -3,6 +3,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.contrib.auth.hashers import check_password
 from .models import Login, Profile, User
 from .serializers import ProfileSerializer, UserSerializer
 from datetime import datetime
@@ -22,13 +23,11 @@ class LoginView(APIView):
             email = request.data.get('email')
             password = request.data.get('password')
 
-            user = User.objects.get(email=email, password=password)
-            if user is not None:
+            user = User.objects.get(email=email)
+            if user is not None and check_password(password, user.password):
                 self.new_login(user)
-
                 refresh = RefreshToken.for_user(user)
                 token = str(refresh.access_token)
-        
                 return Response({
                     'result': 'success',
                     'token': token
