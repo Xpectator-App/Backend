@@ -29,15 +29,14 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
-          name: python-app
+          name: backend
           path: |
-            . 
+            requirements.txt
+            backend/ 
             !venv/
 
   deploy:
@@ -51,7 +50,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: python-app
+          name: backend
           path: .
           
       - name: 'Deploy to Azure Web App'
