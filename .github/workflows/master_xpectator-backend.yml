@@ -32,12 +32,16 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       
+      - name: Copy requirements.txt inside the artifact
+        run: |
+          mkdir -p backend
+          cp requirements.txt backend/
+      
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
           name: backend
           path: |
-            requirements.txt
             backend/ 
             !venv/
 
