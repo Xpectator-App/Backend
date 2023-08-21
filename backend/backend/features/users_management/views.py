@@ -40,6 +40,12 @@ class LoginView(APIView):
                     }, status=status.HTTP_401_UNAUTHORIZED
                 )
         except Exception as e:
+            if str(e).__contains__('does not exist'):
+                return Response({
+                    'result': 'fail',
+                    'detail': 'User not found'
+                    }, status=status.HTTP_404_NOT_FOUND
+                )
             return Response({
                 'result': 'fail',
                 'detail': str(e)
@@ -50,25 +56,52 @@ class LoginView(APIView):
 class CheckUserByEmail(APIView):
     def post(self, request):
         try:
-            user = User.objects.get(
-                email=request.data.get('email'))
-            if user is not None:
+            User.objects.get(
+                email=request.data.get('email')
+            )
+            return Response({
+                'result': 'success'
+                }, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            if str(e).__contains__('does not exist'):
                 return Response({
-                    'result': 'success'
-                    }, status=status.HTTP_200_OK
-                )
-            else:
-                return Response({
-                    'result': 'fail'
+                    'result': 'fail',
+                    'detail': 'User not found'
                     }, status=status.HTTP_404_NOT_FOUND
                 )
-        except Exception as e:
             return Response({
                 'result': 'fail',
                 'detail': str(e)
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-            
+
+
+class RecoverPassword(APIView):
+    def post(self, request):
+        try:
+            email = request.data.get('email')
+            user = User.objects.get(email=email)
+            user.password = 'XXXXXX'
+            user.save()
+            return Response({
+                'result': 'success'
+                }, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            if str(e).__contains__('does not exist'):
+                return Response({
+                    'result': 'fail',
+                    'detail': 'User not found'
+                    }, status=status.HTTP_404_NOT_FOUND
+                )
+            return Response({
+                'result': 'fail',
+                'detail': str(e)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )  
+
+          
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -93,6 +126,3 @@ class ProfileListCreateView(generics.ListCreateAPIView):
 class ProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-
-
-

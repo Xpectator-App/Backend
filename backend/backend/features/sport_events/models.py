@@ -1,7 +1,6 @@
 from django.db import models
 import uuid
 
-
 class Location(models.Model):
     class Meta:
         db_table = 'location'

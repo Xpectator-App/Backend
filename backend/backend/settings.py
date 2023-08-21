@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'backend.features.users_management',
-    'backend.features.sport_events'
+    'backend.features.sport_events',
+    'backend.features.chatbot'
 ]
 
 MIDDLEWARE = [
